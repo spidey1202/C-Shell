@@ -1,0 +1,14 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<sys/types.h>
+#include<sys/wait.h>
+#include<strings.h>
+#include<unistd.h>
+#include<readline/readline.h>
+#include<readline/history.h>
+#include<fcntl.h>
+#include<errno.h>
+#include<linux/limits.h>
+#include<signal.h>
+#include<ctype.h>
+#include<string.h>
