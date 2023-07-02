@@ -22,6 +22,17 @@ C-Shell is a Linux shell implemented in C that supports pipes, background proces
 - Arch Linux: `sudo pacman -S valgrind`
 2. Run `make valgrind` to check for memory leaks. This command runs the `./Shell` executable file in the Valgrind environment.
 
+    **Example:**
+    ```
+    $ make valgrind
+    valgrind --leak-check=full ./Shell
+    ...
+    ==1234== 0 bytes in 0 blocks are definitely lost in loss record 0 of 1
+    ...
+    ```
+
+    The output shows "0 bytes in 0 blocks are definitely lost", indicating that there are no memory leaks in the shell.
+
 ## Features
 
 ### Commands
@@ -53,4 +64,4 @@ The following built-in commands are supported:
 
 1. `CTRL-C`: Sends the `SIGINT` signal to the current foreground job of the shell. If there is no foreground job, the signal has no effect.
 2. `CTRL-D`: Logs you out of the shell without impacting the terminal. This shortcut only works on an empty prompt.
-3. Input-Output Redirection and Piping: The shell handles input/output redirection (`<`, `>`) and piping (`|`) operators appropriately, ensuring correct syntax. An error is thrown if the syntax is
+3. Input-Output Redirection and Piping: The shell handles input/output redirection (`<`, `>`) and piping (`|`) operators appropriately, ensuring correct syntax. An error is thrown if the syntax is incorrect.
