@@ -16,11 +16,11 @@ C-Shell is a Linux shell implemented in C that supports pipes, background proces
 ## Memory Leaks
 
 1. Install **Valgrind** using the command Ubuntu/Debian:
-- arduino: `sudo apt-get install valgrind`
-- Fedora: `sudo dnf install valgrind`
-- CentOS: `sudo yum install valgrind`
-- Arch Linux: `sudo pacman -S valgrind`
-2. Run `make valgrind` to check for memory leaks. This command runs the `./Shell` executable file in the Valgrind environment.
+- arduino: ```sudo apt-get install valgrind```
+- Fedora: ```sudo dnf install valgrind```
+- CentOS: ```sudo yum install valgrind```
+- Arch Linux: ```sudo pacman -S valgrind```
+2. Run ```make valgrind``` to check for memory leaks. This command runs the `./Shell` executable file in the Valgrind environment.
 
     **Example:**
     ```
