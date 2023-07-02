@@ -2,64 +2,51 @@
 
 ## Introduction
 
-A Linux shell implemented in C that supports pipes, background processes, etc.
+C-Shell is a Linux shell implemented in C that supports pipes, background processes, and more.
 
-## Run the shell
+## Run the Shell
 
-1. Clone this directory and `cd` into it.
-2. Run the command `make`.
-3. Run `./Shell` to get a prompt of the form `Shell:path$ `.
-4. Run any command in the shell. It can entail as many spaces, and the shell accounts for those.
-5. In order to exit, run `exit` or press `CTRL+D` on empty prompt.
-6. Use `make clean` to remove object files and executable file.
+1. Clone this repository and navigate to the project directory.
+2. Run the command `make` to build the shell.
+3. Execute `./Shell` to start the shell. You will see a prompt of the form `Shell:path$ `.
+4. Enter commands in the shell. Multiple commands can be separated by pipes (`|`).
+5. To exit the shell, run the `exit` command or press `CTRL+D` on an empty prompt.
+6. Use `make clean` to remove object files and the executable file.
+
+## Memory Leaks
+
+1. Install **Valgrind** using the command `apt install valgrind`.
+2. Run `make valgrind` to check for memory leaks. This command runs the `./Shell` executable file in the Valgrind environment.
 
 ## Features
 
 ### Commands
 
-Shell can execute the command of format: `command1 [ < infile] [ | command ]* [ > outfile] [&]`.
+The shell supports the execution of commands in the following format: `command1 [ < infile] [ | command ]* [ > outfile] [&]`.
 
-#### Builtin Commands
+#### Built-in Commands
 
-I have defined these commands, which are contained within the shell.
+The following built-in commands are supported:
 
-1. `cd [absolute or relative path]`
-   - Changing the directory to the specified directory throws an error if the directory does not exist.
-2. `history`
-   - Displays last 10 commands.
-   - The number of commands to be stored in history is determined by `HISTORY_QUEUE_SIZE` macros in [shell.c](shell.c).
-   - Every input will be stored in history, given it is not same as the last input.
-3. `!num`
-   - It reruns the command numbered _num_ in the list of commands returned by history. Otherwise throws an error.
-   - It also works with a negative number, e.g. `!-1` runs the last command.
-   - It can be combined with piping, e.g. ` !3 | head -n 1`.
-4. `jobs`
-   - Displays all the background jobs running, terminated, or completed along with their pid.
-5. `kill [ %num | pid ]`
-   - Kills the process by sending _SIGKILL_ signal.
-   - If `%num` is used, it kills the process numbered _num_ in the list of background processes returned by jobs. Otherwise throws an error.
-   - If `pid` is used, it kills the process which has this _pid_.
-6. `help`
-   - Displays the syntax of the command accepted by the shell and all the builtin commands.
+1. `cd [path]`: Change the current directory to the specified directory. An error is thrown if the directory does not exist.
+   - Example: `cd Documents/` navigates to the "Documents" directory.
+2. `history`: Display the last 10 commands executed. The number of commands stored in history can be configured using the `HISTORY_QUEUE_SIZE` macro in [shell.c](shell.c).
+   - Example: Running `history` shows a list of the previous commands executed.
+3. `!num`: Re-run the command numbered `num` from the history. A negative number can be used to refer to commands relative to the last command (e.g., `!-1` runs the previous command). Piping can also be used with this command (e.g., `!3 | head -n 1`).
+   - Example: `!5` re-executes the fifth command from the history.
+4. `jobs`: Display information about background jobs, including their process IDs.
+   - Example: Running `jobs` shows the currently running background jobs.
+5. `kill [%num | pid]`: Terminate a process by sending the `SIGKILL` signal. If `%num` is used, it refers to a process by its number in the list of background processes returned by `jobs`. Otherwise, an error is thrown. If `pid` is used, it refers to a process by its process ID.
+   - Example: `kill %3` terminates the background process with job number 3.
+6. `help`: Display the syntax accepted by the shell and information about all the built-in commands.
 
 ### Background Processes
 
-- To run a process in the background, follow the command with a '&' symbol. E.g. `gedit file_name.ext &`.
-- Upon termination of a background process, the shell prints its PID and exit status
+- To run a process in the background, append the command with the '&' symbol. For example: `gedit file_name.ext &`.
+- Upon termination of a background process, the shell prints its process ID and exit status.
 
 ### Additional Features
 
-1. `CTRL-C`
-
-   - Sends SIGINT signal to the current foreground job of the shell.
-   - If there is no foreground job, then the signal does not have any effect.
-
-2. `CTRL-D`
-
-   - Logs you out of the shell without having any impact on the terminal.
-   - Works only on empty prompt
-
-3. Input-Output redirection & piping
-
-   - Handles `<`, `>`, and `|` operators appropriately, wherever they are in the command
-   - Throws error if syntax is incorrect
+1. `CTRL-C`: Sends the `SIGINT` signal to the current foreground job of the shell. If there is no foreground job, the signal has no effect.
+2. `CTRL-D`: Logs you out of the shell without impacting the terminal. This shortcut only works on an empty prompt.
+3. Input-Output Redirection and Piping: The shell handles input/output redirection (`<`, `>`) and piping (`|`) operators appropriately, ensuring correct syntax. An error is thrown if the syntax is
